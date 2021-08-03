@@ -1,9 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Form, Input, message, Modal, Space, Table} from "antd";
-import {DeleteOutlined, DownloadOutlined, EditOutlined, UploadOutlined} from '@ant-design/icons';
+import {DeleteOutlined, DownloadOutlined, EditOutlined} from '@ant-design/icons';
 import {useSelector} from "react-redux";
 import {API_STATUSES} from "../../shared/constants";
-import {deleteCategory, getAllCategories, postNewCategory, updateCategory} from "./category-table.service";
+import {
+  deleteCategory,
+  getAllCategories,
+  postBulkCategories,
+  postNewCategory,
+  updateCategory
+} from "./category-table.service";
 
 const {Item} = Form;
 
@@ -100,7 +106,35 @@ const CategoryTableComponent = () => {
     downloadFile();
   };
 
-  const uploadCsv = () => {
+  const uploadCsv = (event) => {
+    const file = event.target.files[0];
+    if (file.type !== "text/csv") {
+      message.error("Only CSV files allowed");
+      event.target.value = "";
+      return;
+    }
+    file.text()
+      .then(response => {
+        const array = response.split("\n");
+        const resultingArray = [];
+        if (array[0] === "Category ID,Category Name,Inserted Timestamp,Last Updated Timestamp") {
+          const headNames = "categoryId,categoryName,insertedTimestamp,lastUpdateTimestamp".split(",");
+          for (let i = 1; i < array.length; i++) {
+            const values = array[i].split(",");
+            const objToPush = {}
+            for (let j = 0; j < headNames.length; j++) {
+              objToPush[headNames[j]] = values[j]
+            }
+            resultingArray.push(objToPush);
+          }
+          (async () => {
+            await postBulkCategories(resultingArray);
+            await getAllCategories();
+          })();
+        } else {
+          message.error("File not properly not formatted");
+        }
+      })
 
   };
 
@@ -146,10 +180,9 @@ const CategoryTableComponent = () => {
               Download CSV
               <DownloadOutlined style={{fontSize: "18px"}}/>
             </Button>
-            <Button type="primary" onClick={() => uploadCsv()}>
-              Upload CSV
-              <UploadOutlined style={{fontSize: "18px"}}/>
-            </Button>
+            <input accept=".csv" type="file" onChange={(event) => {
+              uploadCsv(event)
+            }}/>
 
           </Space>
         </div>

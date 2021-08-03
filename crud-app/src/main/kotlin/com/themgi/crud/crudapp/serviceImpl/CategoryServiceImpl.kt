@@ -3,7 +3,6 @@ package com.themgi.crud.crudapp.serviceImpl
 import com.themgi.crud.crudapp.domain.Category
 import com.themgi.crud.crudapp.repository.CategoryRepository
 import com.themgi.crud.crudapp.service.CategoryService
-import com.themgi.crud.crudapp.util.copyObjectAttributes
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 

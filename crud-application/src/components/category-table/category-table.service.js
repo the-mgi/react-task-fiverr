@@ -9,7 +9,7 @@ export const getAllCategories = async () => {
 };
 
 export const postBulkCategories = async (allCategories) => {
-  return await API({url: "categories/bulk/save", body: allCategories, method: "POST"});
+  return await API({url: "/category/bulk/save", body: allCategories, method: "POST"});
 };
 
 export const updateCategory = async (body, categoryId) => {
