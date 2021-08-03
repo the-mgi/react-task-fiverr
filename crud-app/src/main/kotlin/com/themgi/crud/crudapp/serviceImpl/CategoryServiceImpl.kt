@@ -27,7 +27,8 @@ class CategoryServiceImpl(
     override fun updateCategoryById(id: Long, category: Category): Category?{
         val categoryFromDB = this.categoryRepository.findById(id)
         if (categoryFromDB.isPresent) {
-            val finalCategory = copyObjectAttributes(category, categoryFromDB.get())
+            val finalCategory = categoryFromDB.get()
+            finalCategory.categoryName = category.categoryName
             this.categoryRepository.save(finalCategory)
             return finalCategory
         }

@@ -1,0 +1,15 @@
+.main-desc-container {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: var(--default-padding);
+    width: 90%;
+    margin: var(--default-margin) auto;
+    height: fit-content;
+    background-color: var(--background-color);
+}
+
+.main-desc-container p {
+    line-height: 1.7em;
+    color: var(--text-color);
+    font-size: 16px;
+}

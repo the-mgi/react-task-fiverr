@@ -1,6 +1,5 @@
 package com.themgi.crud.crudapp.domain
 
-import com.themgi.crud.crudapp.util.areObjectsEqual
 import javax.persistence.*
 
 @Entity
@@ -40,12 +39,35 @@ class Product(
     )
     var imageURL: String? = null
 ) : BaseMasterEntity() {
+
     override fun equals(other: Any?): Boolean {
-        return areObjectsEqual(this, other)
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Product
+
+        if (productId != other.productId) return false
+        if (name != other.name) return false
+        if (description != other.description) return false
+        if (qtyAvailable != other.qtyAvailable) return false
+        if (pricePerUnit != other.pricePerUnit) return false
+        if (unitName != other.unitName) return false
+        if (category != other.category) return false
+        if (imageURL != other.imageURL) return false
+
+        return true
     }
 
     override fun hashCode(): Int {
-        return productId?.hashCode() ?: 0
+        var result = productId?.hashCode() ?: 0
+        result = 31 * result + (name?.hashCode() ?: 0)
+        result = 31 * result + (description?.hashCode() ?: 0)
+        result = 31 * result + (qtyAvailable?.hashCode() ?: 0)
+        result = 31 * result + (pricePerUnit?.hashCode() ?: 0)
+        result = 31 * result + (unitName?.hashCode() ?: 0)
+        result = 31 * result + (category?.hashCode() ?: 0)
+        result = 31 * result + (imageURL?.hashCode() ?: 0)
+        return result
     }
 
     override fun toString(): String {

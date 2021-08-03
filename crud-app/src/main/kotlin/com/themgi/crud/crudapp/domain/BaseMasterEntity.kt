@@ -22,12 +22,12 @@ open class BaseMasterEntity(
         name = "last_updated_time_stamp",
         columnDefinition = "timestamp default CURRENT_TIMESTAMP",
     )
-    var lastUpdateTimeStamp: Timestamp? = Timestamp(System.currentTimeMillis()),
+    var lastUpdateTimestamp: Timestamp? = Timestamp(System.currentTimeMillis()),
 ) {
 
     @PreUpdate
     protected fun onUpdate() {
-        this.lastUpdateTimeStamp = Timestamp(System.currentTimeMillis())
+        this.lastUpdateTimestamp = Timestamp(System.currentTimeMillis())
     }
 
     @PrePersist
@@ -36,6 +36,6 @@ open class BaseMasterEntity(
     }
 
     override fun toString(): String {
-        return "BaseMasterEntity(createdTimestamp=$createdTimestamp, updatedTimestamp=$lastUpdateTimeStamp)"
+        return "BaseMasterEntity(createdTimestamp=$createdTimestamp, updatedTimestamp=$lastUpdateTimestamp)"
     }
 }

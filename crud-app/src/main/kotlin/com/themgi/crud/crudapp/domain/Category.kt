@@ -1,6 +1,5 @@
 package com.themgi.crud.crudapp.domain
 
-import com.themgi.crud.crudapp.util.areObjectsEqual
 import javax.persistence.*
 
 @Entity
@@ -13,15 +12,27 @@ class Category(
 
     var categoryName: String? = null
 ) : BaseMasterEntity() {
-    override fun equals(other: Any?): Boolean {
-        return areObjectsEqual(this, other)
-    }
 
-    override fun hashCode(): Int {
-        return categoryId?.hashCode() ?: 0
-    }
 
     override fun toString(): String {
         return "Category(id=$categoryId, categoryName=$categoryName)"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Category
+
+        if (categoryId != other.categoryId) return false
+        if (categoryName != other.categoryName) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = categoryId?.hashCode() ?: 0
+        result = 31 * result + (categoryName?.hashCode() ?: 0)
+        return result
     }
 }
